@@ -22,7 +22,7 @@ public class BaseUser extends BaseEntity {
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     List<Token> tokens;
 
 
