@@ -26,4 +26,7 @@ public class CustomerService {
         repository.deleteById(id);
         return ApiResponse.ok("Müşteri silindi");
     }
+    protected Customer findById(Long id){
+        return repository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
 }

@@ -1,9 +1,13 @@
 package com.rf.onlinebarber.exception_management;
 
 import com.rf.onlinebarber.dto.ApiResponse;
+import com.rf.onlinebarber.exception.AppointmentConflictException;
+import com.rf.onlinebarber.exception.ModelNotFoundException;
+import com.rf.onlinebarber.exception.NotAvailableException;
 import com.rf.onlinebarber.exception.UserNotFoundException;
 import com.rf.onlinebarber.model.Customer;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,11 +32,17 @@ public class GlobalExceptionHandler {
         status(400).path(http.getRequestURI()).message("Doğrulama Hatası").errors(errors).dateTime(LocalDateTime.now()).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
-    // Kullanıcı bulunamadı hatası
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> notFoundException(UserNotFoundException exception,HttpServletRequest request){
+    //  bulunamadı hatası
+    @ExceptionHandler({UserNotFoundException.class, ModelNotFoundException.class})
+    public ResponseEntity<ApiResponse<Void>> notFoundException(RuntimeException exception,HttpServletRequest request){
         ApiResponse<Void> apiResponse=ApiResponse.<Void>builder().status(404).message(exception.getMessage()).dateTime(LocalDateTime.now())
                 .path(request.getRequestURI()).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+    // bad request hatası
+    @ExceptionHandler({NotAvailableException.class, AppointmentConflictException.class})
+    public ResponseEntity<ApiResponse<Void>> badRequestExceptionManagement(RuntimeException ex,HttpServletRequest request){
+        ApiResponse<Void> apiResponse=ApiResponse.<Void>builder().status(400).path(request.getRequestURI()).dateTime(LocalDateTime.now()).message(ex.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 }

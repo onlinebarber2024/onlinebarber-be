@@ -1,7 +1,6 @@
 package com.rf.onlinebarber.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +21,7 @@ public class ApiResponse <T>{
    private LocalDateTime dateTime=LocalDateTime.now();
    private Map<String,String> errors=new HashMap<>();
    public T data;
+
 
 
 

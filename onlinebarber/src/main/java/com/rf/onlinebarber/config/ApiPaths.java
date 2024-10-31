@@ -9,5 +9,9 @@ public class ApiPaths {
     public static  final String CUSTOMER=VERSION+"customer/";
     public static final String SAVE="save";
     public static final String DELETE="delete/{id}";
+    public static final String LIST="list";
+    public static final String ADD_MODEL="add/{barberId}";
+    public static final String MODEL_BY_BARBER="list/{barberId}";
+    public static final String CREATE_APPOINTMENT="create/{customerId}/{modelId}";
 
 }

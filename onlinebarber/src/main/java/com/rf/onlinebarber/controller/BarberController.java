@@ -2,11 +2,14 @@ package com.rf.onlinebarber.controller;
 
 import com.rf.onlinebarber.config.ApiPaths;
 import com.rf.onlinebarber.dto.ApiResponse;
+import com.rf.onlinebarber.dto.BarberDto;
 import com.rf.onlinebarber.dto.CreateBarberRequest;
 import com.rf.onlinebarber.service.BarberService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPaths.BARBER)
@@ -29,4 +32,8 @@ public class BarberController {
         return ResponseEntity.ok(barberService.delete(id));
     }
     // berber listesini getir
+    @GetMapping(ApiPaths.LIST)
+    public ResponseEntity<ApiResponse<List<BarberDto>>> list(){
+        return ResponseEntity.ok(barberService.list());
+    }
 }
