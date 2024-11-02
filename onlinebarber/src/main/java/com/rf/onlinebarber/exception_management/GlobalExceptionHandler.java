@@ -1,10 +1,7 @@
 package com.rf.onlinebarber.exception_management;
 
 import com.rf.onlinebarber.dto.ApiResponse;
-import com.rf.onlinebarber.exception.AppointmentConflictException;
-import com.rf.onlinebarber.exception.ModelNotFoundException;
-import com.rf.onlinebarber.exception.NotAvailableException;
-import com.rf.onlinebarber.exception.UserNotFoundException;
+import com.rf.onlinebarber.exception.*;
 import com.rf.onlinebarber.model.Customer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationContextException;
@@ -33,7 +30,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
     //  bulunamadı hatası
-    @ExceptionHandler({UserNotFoundException.class, ModelNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, ModelNotFoundException.class, AppointmentNotFoundException.class})
     public ResponseEntity<ApiResponse<Void>> notFoundException(RuntimeException exception,HttpServletRequest request){
         ApiResponse<Void> apiResponse=ApiResponse.<Void>builder().status(404).message(exception.getMessage()).dateTime(LocalDateTime.now())
                 .path(request.getRequestURI()).build();

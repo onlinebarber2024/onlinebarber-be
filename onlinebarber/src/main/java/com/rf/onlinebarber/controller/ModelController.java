@@ -40,4 +40,9 @@ public class ModelController {
     ApiResponse<List<ModelDto>> getModels(){
         return ApiResponse.ok("model listesi",service.getModels());
     }
+    // modeli getir
+    @GetMapping(ApiPaths.GET)
+    ResponseEntity<ApiResponse<ModelDto>> getModel(@PathVariable Long id){
+        return ResponseEntity.ok(service.getModel(id));
+    }
 }

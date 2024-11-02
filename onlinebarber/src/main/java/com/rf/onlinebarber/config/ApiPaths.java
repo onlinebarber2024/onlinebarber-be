@@ -13,5 +13,8 @@ public class ApiPaths {
     public static final String ADD_MODEL="add/{barberId}";
     public static final String MODEL_BY_BARBER="list/{barberId}";
     public static final String CREATE_APPOINTMENT="create/{customerId}/{modelId}";
+    public static final String APPOINTMENT_BY_BARBER="list/barber/{id}";
+    public static final String APPOINTMENT_BY_CUSTOMER="list/customer/{id}";
+    public static final String GET="/{id}";
 
 }

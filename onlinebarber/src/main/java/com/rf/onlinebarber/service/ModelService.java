@@ -42,4 +42,8 @@ public class ModelService {
     protected ShavingModel findById(Long id){
         return repository.findById(id).orElseThrow(ModelNotFoundException::new);
     }
+
+    public ApiResponse<ModelDto> getModel(Long id) {
+        return ApiResponse.ok("Tıraş Modeli",converter.convertModel(findById(id)));
+    }
 }

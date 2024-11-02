@@ -9,6 +9,6 @@ import java.util.List;
 
 // repositoryd design pattern
 public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
-     List<Appointment> findByCustomer(Customer customer);
+     List<Appointment> findByCustomerId(Long id);
 
 }

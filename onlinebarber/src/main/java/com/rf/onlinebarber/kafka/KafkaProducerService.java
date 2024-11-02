@@ -13,10 +13,16 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    // randevu oluşturuldu bilgisi
+    // randevu oluşturuldu bildirimi
     public void sendAppointmentCreatedNotification(AppointmentDto dto){
         String topic="appointment-created";
         kafkaTemplate.send(topic,dto);
     }
+    // randevu iptal edildi bildirimi
+    public void sendAppointmentCanceledNotification(AppointmentDto dto){
+        String topic="appointment-canceled";
+        kafkaTemplate.send(topic,dto);
+    }
+
 
 }

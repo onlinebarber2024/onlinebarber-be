@@ -56,7 +56,7 @@ public class AppointmentService {
     }
 
     private boolean AnotherAppointmentValid(LocalDateTime dateTime, Customer customer) {
-        List<Appointment> appointments = repository.findByCustomer(customer);
+        List<Appointment> appointments = repository.findByCustomerId(customer.getId());
 
         for (Appointment appointment : appointments) {
 
@@ -72,9 +72,33 @@ public class AppointmentService {
     }
 
     // mağazaya ait randevular listesi
-    List<AppointmentDto> appointmentList(Long barberId){
+    private List<AppointmentDto> appointmentList(Long barberId){
         return repository.findAll().stream().filter(x-> x.getModel().getBarber().getId().equals(barberId)).map(converter::convertAppointment).collect(Collectors.toList());
     }
-    // müşteriye ait randevu listesi
-    // randevu iptali
+
+    // kullanıcıya ait
+    private List<AppointmentDto> listByCustomer(Long customerId){
+        List<Appointment> appointments=repository.findByCustomerId(customerId);
+        return appointments.stream().map(converter::convertAppointment).collect(Collectors.toList());
+    }
+    public ApiResponse<Void> cancelledAppointment(Long id) {
+        Appointment appointment=repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
+        repository.delete(appointment);
+        kafkaProducerService.sendAppointmentCanceledNotification(converter.convertAppointment(appointment));
+        return ApiResponse.ok("Randevu iptal oldu");
+    }
+
+    public ApiResponse<List<AppointmentDto>> appointmentsByBarber(Long id) {
+        return ApiResponse.ok("randevu listesi",appointmentList(id));
+    }
+
+    public ApiResponse<List<AppointmentDto>> appointmentsByCustomer(Long id) {
+        return ApiResponse.ok("randevu listesi",listByCustomer(id));
+    }
+
+
+    public ApiResponse<AppointmentDto> getModel(Long id) {
+        Appointment appointment=repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
+        return ApiResponse.ok("Randevu",converter.convertAppointment(appointment));
+    }
 }
