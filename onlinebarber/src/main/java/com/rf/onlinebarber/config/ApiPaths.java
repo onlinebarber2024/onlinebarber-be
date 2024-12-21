@@ -16,5 +16,7 @@ public class ApiPaths {
     public static final String APPOINTMENT_BY_BARBER="list/barber/{id}";
     public static final String APPOINTMENT_BY_CUSTOMER="list/customer/{id}";
     public static final String GET="/{id}";
+    public static final String LOGIN="/login";
+    public static final String LOGOUT="/logout";
 
 }

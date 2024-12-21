@@ -24,7 +24,6 @@ public class AppointmentController {
         return ResponseEntity.ok(service.createAppointment(customerId,modelId,request));
     }
     // randevu güncelle
-
     // randevu iptal
     @DeleteMapping(ApiPaths.DELETE)
     ResponseEntity<ApiResponse<Void>> cancelledAppointment(@PathVariable Long id){

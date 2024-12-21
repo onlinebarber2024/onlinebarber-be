@@ -24,4 +24,5 @@ public class ShavingModel extends BaseEntity {
    private Barber barber;
    @OneToMany(mappedBy = "model",cascade = CascadeType.ALL)
    private List<Appointment> appointments;
+   
 }

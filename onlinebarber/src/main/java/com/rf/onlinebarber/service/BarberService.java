@@ -9,6 +9,7 @@ import com.rf.onlinebarber.model.Role;
 import com.rf.onlinebarber.repository.BarberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.rf.onlinebarber.dto.ApiResponse.*;
 
@@ -21,11 +22,12 @@ import java.util.stream.Collectors;
 public class BarberService {
     private final BarberRepository barberRepository;
     private final DtoConverter converter;
+    private final PasswordEncoder encoder;
 
 
     // kayıt
     public ApiResponse<Void> createBarber(CreateBarberRequest request) {
-        Barber barber= Barber.builder().email(request.getEmail()).name(request.getName()).password(request.getPassword()).phoneNumber(request.getPhoneNumber()).role(Role.ROLE_BARBER).build();
+        Barber barber= Barber.builder().email(request.getEmail()).name(request.getName()).password(encoder.encode(request.getPassword())).phoneNumber(request.getPhoneNumber()).role(Role.ROLE_BARBER).build();
         barberRepository.save(barber);
         return ApiResponse.ok("Berber kaydı başarılı");
     }

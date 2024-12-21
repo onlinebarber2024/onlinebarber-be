@@ -30,14 +30,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
     //  bulunamadı hatası
-    @ExceptionHandler({UserNotFoundException.class, ModelNotFoundException.class, AppointmentNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, ModelNotFoundException.class, AppointmentNotFoundException.class,TokenException.class})
     public ResponseEntity<ApiResponse<Void>> notFoundException(RuntimeException exception,HttpServletRequest request){
         ApiResponse<Void> apiResponse=ApiResponse.<Void>builder().status(404).message(exception.getMessage()).dateTime(LocalDateTime.now())
                 .path(request.getRequestURI()).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
     // bad request hatası
-    @ExceptionHandler({NotAvailableException.class, AppointmentConflictException.class})
+    @ExceptionHandler({NotAvailableException.class, AppointmentConflictException.class,AuthException.class})
     public ResponseEntity<ApiResponse<Void>> badRequestExceptionManagement(RuntimeException ex,HttpServletRequest request){
         ApiResponse<Void> apiResponse=ApiResponse.<Void>builder().status(400).path(request.getRequestURI()).dateTime(LocalDateTime.now()).message(ex.getMessage()).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);

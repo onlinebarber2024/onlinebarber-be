@@ -1,34 +1,33 @@
 package com.rf.onlinebarber.dto.converter;
 
-import com.rf.onlinebarber.dto.AppointmentDto;
-import com.rf.onlinebarber.dto.BarberDto;
-import com.rf.onlinebarber.dto.CustomerDto;
-import com.rf.onlinebarber.dto.ModelDto;
-import com.rf.onlinebarber.model.Appointment;
-import com.rf.onlinebarber.model.Barber;
-import com.rf.onlinebarber.model.Customer;
-import com.rf.onlinebarber.model.ShavingModel;
+import com.rf.onlinebarber.dto.*;
+import com.rf.onlinebarber.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 
 
 @Component
+@RequiredArgsConstructor
 public class DtoConverter {
-    public BarberDto convertBarber(Barber barber){
-        return BarberDto.builder().name(barber.getName()).id(barber.getId()).phoneNumber(barber.getPhoneNumber()).email(barber.getEmail())
-                .build();
+    private final DtoConverterFactory factory ;
+
+    public BarberDto convertBarber(Barber barber) {
+        return (BarberDto) factory.getConverter(Barber.class).convert(barber);
     }
-    public ModelDto convertModel(ShavingModel model){
-        return ModelDto.builder().id(model.getId()).image(model.getImage()).barber(convertBarber(model.getBarber()))
-                .price(model.getPrice()).name(model.getName()).build();
+
+    public ModelDto convertModel(ShavingModel model) {
+        return (ModelDto) factory.getConverter(ShavingModel.class).convert(model);
     }
-    public CustomerDto convertCustomer(Customer customer){
-        return CustomerDto.builder().phoneNumber(customer.getPhoneNumber())
-                .id(customer.getId()).email(customer.getEmail()).name(customer.getName()).build();
+
+    public CustomerDto convertCustomer(Customer customer) {
+        return (CustomerDto) factory.getConverter(Customer.class).convert(customer);
     }
 
     public AppointmentDto convertAppointment(Appointment appointment) {
-        return AppointmentDto.builder().dateTime(appointment.getDateTime()).model(convertModel(appointment.getModel()))
-                .id(appointment.getId()).customer(convertCustomer(appointment.getCustomer())).build();
+        return (AppointmentDto) factory.getConverter(Appointment.class).convert(appointment);
+    }
+    public UserDto convertUser(BaseUser user){
+        return (UserDto) factory.getConverter(BaseUser.class).convert(user);
     }
 }
